@@ -1,0 +1,1 @@
+create table if NOT EXISTS {catalog}.{schema}.example as select * from samples.nyctaxi.trips;
