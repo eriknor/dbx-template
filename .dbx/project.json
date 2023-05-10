@@ -1,0 +1,15 @@
+{
+    "environments": {
+        "default": {
+            "profile": "guardian-template-project",
+            "storage_type": "mlflow",
+            "properties": {
+                "workspace_directory": "/Shared/dbx/guardian_template_project",
+                "artifact_location": "dbfs:/Shared/dbx/projects/guardian_template_project"
+            }
+        }
+    },
+    "inplace_jinja_support": false,
+    "failsafe_cluster_reuse_with_assets": false,
+    "context_based_upload_for_execute": false
+}

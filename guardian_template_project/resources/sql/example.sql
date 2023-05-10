@@ -1,1 +1,1 @@
-create table if NOT EXISTS {catalog}.{schema}.example as select * from samples.nyctaxi.trips;
+create table if NOT EXISTS {catalog}{schema}example as select * from {source_catalog}{source_schema}trips;
