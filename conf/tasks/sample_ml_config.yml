@@ -1,4 +1,0 @@
-input:
-  database: "default"
-  table: "sklearn_housing"
-experiment: "/Shared/guardian-template-project_experiment"

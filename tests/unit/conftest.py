@@ -132,6 +132,6 @@ def dbutils_fixture() -> Iterator[None]:
     :return:
     """
     logging.info("Patching the DBUtils object")
-    with patch("guardian_template_project.common.get_dbutils", lambda _: DBUtilsFixture()):
+    with patch("guardian_template_project.etl_pipeline.common.get_dbutils", lambda _: DBUtilsFixture()):
         yield
     logging.info("Test session finished, patching completed")

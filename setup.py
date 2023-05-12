@@ -36,11 +36,11 @@ setup(
     extras_require={"local": LOCAL_REQUIREMENTS, "test": TEST_REQUIREMENTS},
     entry_points = {
         "console_scripts": [
-            "etl = guardian_template_project.tasks.sample_etl_task:entrypoint",
-            "ml = guardian_template_project.tasks.sample_ml_task:entrypoint",
+            "etl = guardian_template_project.etl_pipeline.tasks.sample_etl_task:entrypoint",
+            "ml = guardian_template_project.etl_pipeline.tasks.sample_ml_task:entrypoint",
     ]},
     version=__version__,
     description="",
     author="",
-    package_data={'guardian_template_project': ['resources/sql/*.sql', "resources/raw/*.csv"]},
+    package_data={'guardian_template_project.etl_pipeline': ['resources/sql/*.sql', "resources/raw/*.csv"]},
 )

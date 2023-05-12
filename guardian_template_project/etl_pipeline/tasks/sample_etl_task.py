@@ -1,4 +1,4 @@
-from guardian_template_project.common import Task
+from guardian_template_project.etl_pipeline.common import Task
 import pkg_resources
 
 
@@ -6,8 +6,9 @@ class SQLTask(Task):
     def _execute_sql(self):
         queries = self.conf["queries"]
         for query in queries:
+            query["env"] = self.conf["env"]
             if "filename" in query:
-                query_path = pkg_resources.resource_filename("guardian_template_project", f"resources/sql/{query.get('filename')}")
+                query_path = pkg_resources.resource_filename("guardian_template_project.etl_pipeline", f"resources/sql/{query.get('filename')}")
                 with open(query_path) as file:
                     for line in file:
                         self.spark.sql(line.rstrip().format_map(query))

@@ -15,6 +15,18 @@ custom:
       node_type_id: "i3.xlarge"
 
 environments:
+  stage:
+    workflows:
+      - name: "guardian-template-project-sample-etl"
+        tasks:
+          - task_key: "main"
+            <<: *basic-static-cluster
+            python_wheel_task:
+              package_name: "guardian_template_project"
+              entry_point: "etl" # take a look at the setup.py entry_points section for details on how to define an entrypoint
+              parameters: ["--conf-file", "file:fuse://conf/tasks/sample_etl_config_stg.yml", "--env", ""]
+
+  #prod:
   default:
     workflows:
       #######################################################################################
@@ -38,7 +50,7 @@ environments:
             python_wheel_task:
               package_name: "guardian_template_project"
               entry_point: "etl" # take a look at the setup.py entry_points section for details on how to define an entrypoint
-              parameters: ["--conf-file", "file:fuse://conf/tasks/sample_etl_config.yml"]
+              parameters: ["--conf-file", "file:fuse://guardian_template_project/etl_pipeline/conf/tasks/sample_etl_config.yml", "--env", ""]
       #############################################################
       # this is an example multitask job with notebook task       #
       #############################################################
@@ -50,16 +62,8 @@ environments:
           - task_key: "etl"
             job_cluster_key: "default"
             spark_python_task:
-              python_file: "file://guardian_template_project/tasks/sample_etl_task.py"
-              parameters: [ "--conf-file", "file:fuse://conf/tasks/sample_etl_config.yml" ]
-          - task_key: "ml"
-            depends_on:
-              - task_key: "etl"
-            job_cluster_key: "default"
-            python_wheel_task:
-              package_name: "guardian_template_project"
-              entry_point: "ml"
-              parameters: [ "--conf-file", "file:fuse://conf/tasks/sample_ml_config.yml" ]
+              python_file: "file://guardian_template_project/etl_pipeline/tasks/sample_etl_task.py"
+              parameters: [ "--conf-file", "file:fuse://guardian_template_project/etl_pipeline/conf/tasks/sample_etl_config.yml" ]
           ###############################################################################
           # this is an example task based on the notebook                               #
           # Please note that first you'll need to add a Repo and commit notebook to it. #
@@ -73,6 +77,3 @@ environments:
             notebook_task:
               notebook_path: "/Repos/Staging/guardian_template_project/notebooks/sample_notebook"
 
-### upload sql folder contents to dbfs folder
-### create generic task which reads and runs sql file (leverage parameters)
-### define task/workflow using parameters to define sql file and arguments to sql

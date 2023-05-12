@@ -68,10 +68,26 @@ class Task(ABC):
                 "No conf file was provided, setting configuration to empty dict."
                 "Please override configuration in subclass init method"
             )
-            return {}
+            result={}
         else:
             self.logger.info(f"Conf file was provided, reading configuration from {conf_file}")
-            return self._read_config(conf_file)
+            result=self._read_config(conf_file)
+        result["env"] = self._provide_env()
+        return result
+        
+
+    def _provide_env(self):
+        self.logger.info("Reading env from --env job option")
+        env = self._get_env()
+        if not env:
+            self.logger.info(
+                "No env was provided, setting env to blank."
+                "Please override configuration in subclass init method"
+            )
+            return ""
+        else:
+            self.logger.info(f"env was provided, set to {env}")
+            return env
 
     @staticmethod
     def _get_conf_file():
@@ -79,6 +95,14 @@ class Task(ABC):
         p.add_argument("--conf-file", required=False, type=str)
         namespace = p.parse_known_args(sys.argv[1:])[0]
         return namespace.conf_file
+
+    @staticmethod
+    def _get_env():
+        p = ArgumentParser()
+        p.add_argument("--env", required=False, type=str)
+        namespace = p.parse_known_args(sys.argv[1:])[0]
+        return namespace.env
+
 
     @staticmethod
     def _read_config(conf_file) -> Dict[str, Any]:
