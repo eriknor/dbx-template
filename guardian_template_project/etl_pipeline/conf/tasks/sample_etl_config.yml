@@ -6,9 +6,4 @@ queries: [
     catalog: "erik_example.",
     schema: "sample_example.",
   },
-  {
-    query: "create table if not exists {env}{catalog}.{schema}.silver as select * from {env}{catalog}.{schema}.example where fare_amount > 10 ",
-    catalog: "erik_example",
-    schema: "sample_example",
-   },
 ]

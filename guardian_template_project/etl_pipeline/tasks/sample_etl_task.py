@@ -12,8 +12,6 @@ class SQLTask(Task):
                 with open(query_path) as file:
                     for line in file:
                         self.spark.sql(line.rstrip().format_map(query))
-            elif "query" in query:
-               self.spark.sql(query.get("query").format_map(query)) 
                
     def launch(self):
         self.logger.info("Launching SQL task")
