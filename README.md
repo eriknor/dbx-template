@@ -1,3 +1,4 @@
+# V0.0.3
 # guardian-template-project
 
 This is a sample project for Databricks, generated via cookiecutter.
